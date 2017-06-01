@@ -1,0 +1,26 @@
+version: '2'
+services:   
+  web:
+    build: ./php
+    image: php_dev
+    volumes:
+      - ./www:/var/www/html
+      - ./sites-enabled:/etc/apache2/sites-enabled
+      #- ./hosts:/etc/hosts
+    ports:
+      - "80:80"
+    tty: true
+    depends_on:
+      - db
+  db:
+    build: ../Git/mysql-docker/5.7
+    image: php_db
+    volumes:
+      - "php_db:/var/lib/mysql"
+      #- ./sql:/home/sql
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    ports:
+      - "3307:3306"      
+volumes:
+  php_db: {}
