@@ -1,0 +1,42 @@
+version: "3.7"
+services:
+  # application:
+  #   image: ubuntu
+  #   tty: true
+  #   volumes:
+  #     - ./html:/var/www/html
+  nginx_master:
+    build: https://github.com/nginxinc/docker-nginx.git#:stable/alpine
+    volumes:
+      - ./conf.d/master:/etc/nginx/conf.d
+      - ./log:/var/log/nginx/
+    ports:
+      - "8087:80"
+    depends_on:
+      - nginx_lb1
+      - nginx_lb2
+  nginx_lb1:
+    build: https://github.com/nginxinc/docker-nginx.git#:stable/alpine
+    volumes:
+      - ./conf.d/server1:/etc/nginx/conf.d
+      - ./log:/var/log/nginx/
+      - ./html:/var/www/html
+    ports:
+      - "8085:80"
+    depends_on:
+      - php-pfm_72
+  nginx_lb2:
+    build: https://github.com/nginxinc/docker-nginx.git#:stable/alpine
+    #image: nginx
+    volumes:
+      - ./conf.d/server2:/etc/nginx/conf.d
+      - ./log:/var/log/nginx/
+      - ./html:/var/www/html
+    ports:
+      - "8086:80"
+    depends_on:
+      - php-pfm_72
+  php-pfm_72:
+    image: php:7.2-fpm
+    volumes:
+      - ./html:/var/www/html
