@@ -1,0 +1,46 @@
+version: '3'
+services:   
+  git_wp:
+    build: ./git_server
+    # image: ubuntu:18.04
+    # volumes:
+    #   - ./www:/var/www/html
+    #   - ./sites-enabled:/etc/apache2/sites-enabled
+      #- ./hosts:/etc/hosts
+    ports:
+      - "9022:22"
+    tty: true
+    # depends_on:
+    #   - db
+  git_ws:
+    build: https://github.com/nginxinc/docker-nginx.git#:stable/alpine
+    volumes:
+      - ./git_server/conf.d:/etc/nginx/conf.d
+      - ./git_server/log:/var/log/nginx
+      # - ./git_server/ssh_key:/root/.ssh
+      - ./git_server/html:/var/www/html
+    ports:
+      - "9001:80"
+    depends_on:
+      - git_php
+  git_php:
+    image: php:7.2-fpm
+    volumes:
+      - ./git_server/html:/var/www/html
+  web_client:
+    build: ./git_server
+    volumes:
+      - ./web_client/code:/root/code
+    tty: true
+  # db:
+  #   build: ../Git/mysql-docker/5.7
+  #   image: php_db
+  #   volumes:
+  #     - "php_db:/var/lib/mysql"
+  #     #- ./sql:/home/sql
+  #   environment:
+  #     MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+  #   ports:
+  #     - "3307:3306"      
+# volumes:
+#   php_db: {}

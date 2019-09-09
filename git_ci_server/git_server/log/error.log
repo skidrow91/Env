@@ -1,0 +1,2 @@
+2019/09/09 04:55:03 [error] 7#7: *1 "/var/www/html/index.html" is not found (2: No such file or directory), client: 172.22.0.1, server: localhost, request: "GET / HTTP/1.1", host: "localhost:9001"
+2019/09/09 04:55:04 [error] 7#7: *1 open() "/var/www/html/favicon.ico" failed (2: No such file or directory), client: 172.22.0.1, server: localhost, request: "GET /favicon.ico HTTP/1.1", host: "localhost:9001", referrer: "http://localhost:9001/"
