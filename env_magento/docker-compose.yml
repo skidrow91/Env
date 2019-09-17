@@ -1,0 +1,45 @@
+version: "3.3"
+services:
+  # application:
+  #   image: ubuntu
+  #   tty: true
+  #   volumes:
+  #     - ./html:/var/www/html
+  nginx_mage:
+    build: https://github.com/nginxinc/docker-nginx.git#:stable/alpine
+    volumes:
+      - ./conf.d:/etc/nginx/conf.d
+      - ./log:/var/log/nginx/
+      - ./html:/var/www/html
+    ports:
+      - "8090:80"
+    depends_on:
+      - php-pfm_71
+  db_mage:
+    image: mysql:5.7
+    volumes:
+      - "./data:/var/lib/mysql"
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - "3307:3306"
+  phpmyadmin_mage:
+    image: phpmyadmin/phpmyadmin:latest
+    ports:
+      - "8089:80"
+    environment:
+        - PMA_ARBITRARY=1
+    depends_on:
+      - db_mage 
+  php-pfm_71:
+    build: ./php
+    volumes:
+      - ./html:/var/www/html
+      - ./php_config/php.ini:/usr/local/etc/php/php.ini
+    depends_on:
+      - db_mage
+# volumes:
+#   db_mage:
+#     driver: local
+#   phpmyadmin_mage:
+#     driver: local
