@@ -1,0 +1,22 @@
+version: '3'
+services:   
+  node_env:
+    image: node:10.16.3-alpine
+    volumes:
+      - ./code:/home/node/code
+    #   - ./sites-enabled:/etc/apache2/sites-enabled
+      #- ./hosts:/etc/hosts
+    ports:
+      - "3010:3000"
+    tty: true
+    depends_on:
+      - mongo_env
+  mongo_env:
+    image: mongo:4.0.12-xenial
+    volumes:
+      - ./db:/data/db
+    #   - ./git_server/log:/var/log/nginx
+    #   # - ./git_server/ssh_key:/root/.ssh
+    #   - ./git_server/html:/var/www/html
+    ports:
+      - "27017:27017"
