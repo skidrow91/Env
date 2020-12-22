@@ -1,9 +1,10 @@
 version: '3'
-services:   
+services:
   node_env:
-    image: node:10.16.3-alpine
+    # image: node:10.16.3-alpine
+    build: .
     volumes:
-      - ./code:/home/node/code
+      - ../../code:/home/node/code
     #   - ./sites-enabled:/etc/apache2/sites-enabled
       #- ./hosts:/etc/hosts
     ports:
@@ -14,7 +15,7 @@ services:
   mongo_env:
     image: mongo:4.0.12-xenial
     volumes:
-      - ./db:/data/db
+      - ../../db:/data/db
     #   - ./git_server/log:/var/log/nginx
     #   # - ./git_server/ssh_key:/root/.ssh
     #   - ./git_server/html:/var/www/html
