@@ -1,5 +1,14 @@
 version: '3'
 services:
+  nginx_master:
+    build: https://github.com/nginxinc/docker-nginx.git#:stable/alpine
+    volumes:
+      - ./conf.d/master:/etc/nginx/conf.d
+      - ./log:/var/log/nginx/
+    ports:
+      - "8888:80"
+    depends_on:
+      - node_env      
   node_env:
     # image: node:10.16.3-alpine
     build: .
@@ -7,6 +16,8 @@ services:
       - ../../code:/home/node/code
     #   - ./sites-enabled:/etc/apache2/sites-enabled
       #- ./hosts:/etc/hosts
+    expose:
+      - "3000"
     ports:
       #- "3010-3020:3000"  # using for scale (replicate)
       - "3010:3000"
