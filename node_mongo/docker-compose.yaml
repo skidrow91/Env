@@ -8,6 +8,7 @@ services:
     #   - ./sites-enabled:/etc/apache2/sites-enabled
       #- ./hosts:/etc/hosts
     ports:
+      #- "3010-3020:3000"  # using for scale (replicate)
       - "3010:3000"
     tty: true
     depends_on:
