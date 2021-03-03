@@ -19,11 +19,14 @@ services:
     expose:
       - "3000"
     ports:
-      #- "3010-3020:3000"  # using for scale (replicate)
+      # - "3010-3020:3000"  # using for scale (replicate)
       - "3010:3000"
     tty: true
     depends_on:
       - mongo_env
+    # networks: 
+    #   static-network: 
+    #     ipv4_address: 172.20.128.2 
   mongo_env:
     image: mongo:4.0.12-xenial
     volumes:
@@ -33,3 +36,9 @@ services:
     #   - ./git_server/html:/var/www/html
     ports:
       - "27017:27017"
+# networks: 
+#   static-network: 
+#     ipam: 
+#       config: 
+#         - subnet: 172.20.0.0/16 
+#           ip_range: 172.28.5.0/24     
